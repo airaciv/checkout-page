@@ -1,5 +1,5 @@
 COLOR SCHEME
-Font: #FF8A00
+Font: #FF8A00 / #CCCCCC
 Text: #000000
 Background: #FFFFFF / #FFFAE6
 Valid input/button: #1BD97B

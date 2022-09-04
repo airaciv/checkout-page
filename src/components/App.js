@@ -132,7 +132,7 @@ function App() {
     defaultValues: data,
   });
 
-  const { register, handleSubmit } = useFormReturn;
+  const { handleSubmit } = useFormReturn;
 
   const onSubmit = (data) => {
     localStorage.setItem("data", JSON.stringify(data));

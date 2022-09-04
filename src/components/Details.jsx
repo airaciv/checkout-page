@@ -90,95 +90,15 @@ const DropshipForm = styled.form`
   }
 `;
 
-function DeliveryForm({ useFormReturn, ...restProps }) {
-  const data = JSON.parse(localStorage.getItem("data") ?? "{}");
-  const { register, handleSubmit } = useFormReturn;
-
-  const onSubmit = (data) => {
-    localStorage.setItem("data", JSON.stringify(data));
-    console.log(data);
-  };
-
-  return (
-    <DeliverForm>
-      <InputContainer>
-        <Input
-          id="name"
-          {...register("name", { required: true, maxLength: 20 })}
-        />
-        <label for="name">Name</label>
-      </InputContainer>
-
-      <InputContainer>
-        <Input
-          id="phone-number"
-          {...register("phoneNumber", {
-            required: true,
-            minLength: 6,
-            maxLength: 20,
-            pattern: /^[0-9-+,]+$/,
-          })}
-        />
-        <label for="phone-number">Phone Number</label>
-      </InputContainer>
-
-      <InputContainer>
-        <TextArea
-          id="delivery-address"
-          rows="10"
-          {...register("deliveryAddress", { required: true, maxLength: 120 })}
-        ></TextArea>
-        <label for="delivery-address">Delivery Address</label>
-      </InputContainer>
-    </DeliverForm>
-  );
-}
-
-function DropshipperForm({ useFormReturn, ...restProps }) {
-  const dropshipperData = JSON.parse(localStorage.getItem("dropshipperData"));
-  const { register, handleSubmit } = useFormReturn;
-
-  const onSubmit = (data) => {
-    const { dropshipperName, dropshipperPhoneNumber } = data;
-    localStorage.setItem(
-      "dropshipperData",
-      JSON.stringify({
-        dropshipperName: dropshipperName,
-        dropshipperPhoneNumber: dropshipperPhoneNumber,
-      })
-    );
-  };
-
-  return (
-    <DropshipForm>
-      <InputContainer>
-        <Input
-          id="dropshipper-name"
-          {...register("dropshipperName", { required: true, maxLength: 20 })}
-        />
-        <label for="dropshipper-name">Dropshipper name</label>
-      </InputContainer>
-
-      <InputContainer>
-        <Input
-          id="dropshipper-phone-number"
-          {...register("dropshipperPhoneNumber", {
-            required: true,
-            minLength: 6,
-            maxLength: 20,
-            pattern: /^[0-9-+,]+$/,
-          })}
-        />
-        <label for="dropshipper-phone-number">Phone Number</label>
-      </InputContainer>
-    </DropshipForm>
-  );
-}
-
 function Details({ useFormReturn, ...restProps }) {
   const [isDropship, setIsDropship] = useState(
     localStorage.getItem("isDropship")
   );
+
+  const {
+    register,
+    formState: { errors },
+  } = useFormReturn;
 
   function handleClick(event) {
     localStorage.setItem("isDropship", event.target.checked);
@@ -202,8 +122,76 @@ function Details({ useFormReturn, ...restProps }) {
       </DetailsTitle>
 
       <DeliveryDetails>
-        <DeliveryForm useFormReturn={useFormReturn} />
-        {isDropship && <DropshipperForm useFormReturn={useFormReturn} />}
+        <DeliverForm>
+          <InputContainer>
+            <Input
+              id="name"
+              // To check if input is valid and change the input field color accordingly
+              isValid={!errors.name}
+              {...register("name", { required: true, maxLength: 20 })}
+            />
+
+            <label for="name">Name</label>
+          </InputContainer>
+
+          <InputContainer>
+            <Input
+              id="phone-number"
+              isValid={!errors.phoneNumber}
+              {...register("phoneNumber", {
+                required: true,
+                minLength: 6,
+                maxLength: 20,
+                pattern: /^[0-9-+,]+$/,
+              })}
+            />
+
+            <label for="phone-number">Phone Number</label>
+          </InputContainer>
+
+          <InputContainer>
+            <TextArea
+              id="delivery-address"
+              rows="10"
+              isValid={!errors.deliveryAddress}
+              {...register("deliveryAddress", {
+                required: true,
+                maxLength: 120,
+              })}
+            ></TextArea>
+            <label for="delivery-address">Delivery Address</label>
+          </InputContainer>
+        </DeliverForm>
+
+        {isDropship && (
+          <DropshipForm>
+            <InputContainer>
+              <Input
+                id="dropshipper-name"
+                isValid={!errors.dropshipperName}
+                {...register("dropshipperName", {
+                  required: true,
+                  maxLength: 20,
+                })}
+              />
+              <label for="dropshipper-name">Dropshipper name</label>
+            </InputContainer>
+
+            <InputContainer>
+              <Input
+                id="dropshipper-phone-number"
+                isValid={!errors.dropshipperPhoneNumber}
+                {...register("dropshipperPhoneNumber", {
+                  required: true,
+                  minLength: 6,
+                  maxLength: 20,
+                  pattern: /^[0-9-+,]+$/,
+                })}
+              />
+              <label for="dropshipper-phone-number">Phone Number</label>
+            </InputContainer>
+          </DropshipForm>
+        )}
       </DeliveryDetails>
     </div>
   );

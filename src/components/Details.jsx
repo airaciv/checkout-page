@@ -49,6 +49,7 @@ const TextArea = styled.textarea`
   transition: border 500ms;
   padding: 20px 16px 6px;
   font-size: 1rem;
+  border-color: ${(props) => (props.isValid ? "#1BD97B" : "#FF8A00")};
 
   + label {
     display: block;
@@ -91,10 +92,7 @@ const DropshipForm = styled.form`
 
 function DeliveryForm({ useFormReturn, ...restProps }) {
   const data = JSON.parse(localStorage.getItem("data") ?? "{}");
-  const { register, handleSubmit } = useFormReturn({
-    mode: "onChange",
-    defaultValues: data,
-  });
+  const { register, handleSubmit } = useFormReturn;
 
   const onSubmit = (data) => {
     localStorage.setItem("data", JSON.stringify(data));
@@ -102,7 +100,7 @@ function DeliveryForm({ useFormReturn, ...restProps }) {
   };
 
   return (
-    <DeliverForm onChange={handleSubmit(onSubmit)}>
+    <DeliverForm>
       <InputContainer>
         <Input
           id="name"
@@ -138,10 +136,7 @@ function DeliveryForm({ useFormReturn, ...restProps }) {
 
 function DropshipperForm({ useFormReturn, ...restProps }) {
   const dropshipperData = JSON.parse(localStorage.getItem("dropshipperData"));
-  const { register, handleSubmit } = useFormReturn({
-    mode: "onChange",
-    defaultValues: dropshipperData,
-  });
+  const { register, handleSubmit } = useFormReturn;
 
   const onSubmit = (data) => {
     const { dropshipperName, dropshipperPhoneNumber } = data;
@@ -155,7 +150,7 @@ function DropshipperForm({ useFormReturn, ...restProps }) {
   };
 
   return (
-    <DropshipForm onChange={handleSubmit(onSubmit)}>
+    <DropshipForm>
       <InputContainer>
         <Input
           id="dropshipper-name"

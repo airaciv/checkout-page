@@ -10,6 +10,7 @@ const Input = styled.input`
   transition: border 500ms;
   padding: 20px 16px 6px;
   font-size: 1rem;
+  border-color: ${(props) => (props.isValid ? "#1BD97B" : "#FF8A00")};
 
   + label {
     display: block;

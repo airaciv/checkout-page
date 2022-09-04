@@ -132,10 +132,14 @@ function App() {
     defaultValues: data,
   });
 
+  const { register, handleSubmit } = useFormReturn;
+
   const onSubmit = (data) => {
     localStorage.setItem("data", JSON.stringify(data));
     console.log(data);
+    handleClick();
   };
+
   const content = [
     <Details useFormReturn={useFormReturn} />,
     <Options useFormReturn={useFormReturn} />,
@@ -172,7 +176,7 @@ function App() {
           {content}
         </ContentContainer>
         {/* Passing over function to handle button click to increase step count to Summary component */}
-        <Summary onClick={handleClick} step={step} />
+        <Summary onClick={handleSubmit(onSubmit)} step={step} />
       </Container>
     </div>
   );

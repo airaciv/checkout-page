@@ -4,6 +4,7 @@ import Options from "./Options";
 import Finish from "./Finish";
 import Summary from "./Summary";
 import styled from "styled-components";
+import {useForm} from "react-hook-form"
 
 const Container = styled.div`
   background-color: #ffffff;
@@ -42,6 +43,18 @@ const Steps = styled(PlainSteps)`
   p {
     padding: 0;
   }
+  .step-number {
+    background-color: #ff8a00;
+    border-radius: 50%;
+    color: #ffffff;
+    display: inline-block;
+    height: 1.8rem;
+    width: 1.8rem;
+    line-height: 1rem;
+    padding: 10px 5px 0;
+    margin-right: 1rem;
+    opacity: 0.2;
+  }
   @media (max-width: 1100px) {
     border-radius: 0;
     width: 100%;
@@ -49,19 +62,6 @@ const Steps = styled(PlainSteps)`
       margin: 1rem;
     }
   }
-`;
-
-const StepNumber = styled.span`
-  background-color: #ff8a00;
-  border-radius: 50%;
-  color: #ffffff;
-  display: inline-block;
-  height: 1.8rem;
-  width: 1.8rem;
-  line-height: 1rem;
-  padding: 10px 5px 0;
-  margin-right: 1rem;
-  opacity: 0.2;
 `;
 
 const BackButton = styled(PlainBackButton)`
@@ -112,7 +112,9 @@ function PlainSteps({ steps, currentStep, ...restProps }) {
 
     return (
       <>
-        <StepNumber style={stepNumberStyle}>{i + 1}</StepNumber>
+        <span className="step-number" style={stepNumberStyle}>
+          {i + 1}
+        </span>
         {step}
         {chevron}
       </>
@@ -124,6 +126,16 @@ function PlainSteps({ steps, currentStep, ...restProps }) {
 
 function App() {
   const [step, setStep] = useState(1);
+  const data = JSON.parse(localStorage.getItem("data") ?? "{}");
+  const useFormReturn = useForm({
+    mode: "onChange",
+    defaultValues: data,
+  });
+
+  const onSubmit = (data) => {
+    localStorage.setItem("data", JSON.stringify(data));
+    console.log(data);
+  };
   const content = [<Details />, <Options />, <Finish />][step - 1];
 
   // Increase step counter

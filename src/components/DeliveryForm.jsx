@@ -65,7 +65,11 @@ const TextArea = styled.textarea`
 `;
 
 function DeliveryForm() {
-  const { register, handleSubmit } = useForm({ mode: "onChange" });
+  const data = JSON.parse(localStorage.getItem("data"));
+  const { register, handleSubmit } = useForm({
+    mode: "onChange",
+    defaultValues: data,
+  });
 
   const onSubmit = (data) => {
     const { name, phoneNumber, deliveryAddress } = data;
@@ -77,15 +81,14 @@ function DeliveryForm() {
         deliveryAddress: deliveryAddress,
       })
     );
+    console.log(data);
   };
-  const data = JSON.parse(localStorage.getItem("data"));
 
   return (
     <DeliverForm onChange={handleSubmit(onSubmit)}>
       <InputContainer>
         <Input
           id="name"
-          defaultValue={data.name}
           {...register("name", { required: true, maxLength: 20 })}
         />
         <label for="name">Name</label>
@@ -94,7 +97,6 @@ function DeliveryForm() {
       <InputContainer>
         <Input
           id="phone-number"
-          defaultValue={data.phoneNumber}
           {...register("phoneNumber", {
             required: true,
             minLength: 6,
@@ -109,7 +111,6 @@ function DeliveryForm() {
         <TextArea
           id="delivery-address"
           rows="10"
-          defaultValue={data.deliveryAddress}
           {...register("deliveryAddress", { required: true, maxLength: 120 })}
         ></TextArea>
         <label for="delivery-address">Delivery Address</label>

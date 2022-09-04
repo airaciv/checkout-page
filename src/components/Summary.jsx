@@ -75,7 +75,7 @@ function Summary(props) {
         </Cost>
         <Cost>
           <p>
-            <strong>GO-SEND </strong>shipment
+            <strong>{localStorage.getItem("shipment")} </strong>shipment
           </p>
           <p>{cost.deliveryFee}</p>
         </Cost>

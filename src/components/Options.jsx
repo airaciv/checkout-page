@@ -8,7 +8,6 @@ const AvailableOptions = styled.div`
   button {
     background-color: #ffffff;
     border: 1px solid #cccccc;
-    color: #cccccc;
     flex: 0 1 200px;
     margin: 0 1rem 1rem 0;
     padding: 0.5rem;
@@ -17,32 +16,46 @@ const AvailableOptions = styled.div`
 `;
 
 function Options() {
+  const deliveryOptions = [
+    { name: "GO-SEND", shipmentFee: 15000 },
+    { name: "JNE", shipmentFee: 9000 },
+    { name: "Personal Courier", shipmentFee: 29000 },
+  ];
+
+  function handleClick(event) {
+    event.preventDefault();
+    localStorage.setItem("shipment", event.target.value);
+  }
+
   return (
     <div>
       <h1>Shipment</h1>
-      <AvailableOptions>
-        <button>
-          GO-SEND<br></br>
-          <strong>15,000</strong>
-        </button>
-        <button>
-          JNE<br></br>
-          <strong>9,000</strong>
-        </button>
-        <button>
-          Personal Courier<br></br>
-          <strong>29,000</strong>
-        </button>
-      </AvailableOptions>
+      <form>
+        <AvailableOptions>
+          {deliveryOptions.map((option) => {
+            return (
+              <button name="name" value={option.name} onClick={handleClick}>
+                {option.name}
+                <br></br>
+                <strong>{option.shipmentFee}</strong>
+              </button>
+            );
+          })}
+        </AvailableOptions>
+      </form>
 
       <h1>Payment</h1>
       <AvailableOptions>
-        <button>
+        <button name="payment" value="e-Wallet">
           e-Wallet<br></br>
           <strong>1,500,000 left</strong>
         </button>
-        <button>Bank Transfer</button>
-        <button>Virtual Account</button>
+        <button name="payment" value="Bank Transfer">
+          Bank Transfer
+        </button>
+        <button name="payment" value="Virtual Account">
+          Virtual Account
+        </button>
       </AvailableOptions>
     </div>
   );

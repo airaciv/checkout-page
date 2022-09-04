@@ -21,26 +21,28 @@ const InputContainer = styled.div`
 `;
 
 function DropshipperForm(props) {
-  const { register, handleSubmit } = useForm({ mode: "onChange" });
+  const dropshipperData = JSON.parse(localStorage.getItem("dropshipperData"));
+  const { register, handleSubmit } = useForm({
+    mode: "onChange",
+    defaultValues: dropshipperData,
+  });
 
   const onSubmit = (data) => {
     const { dropshipperName, dropshipperPhoneNumber } = data;
     localStorage.setItem(
-      "data",
+      "dropshipperData",
       JSON.stringify({
         dropshipperName: dropshipperName,
         dropshipperPhoneNumber: dropshipperPhoneNumber,
       })
     );
   };
-  const data = JSON.parse(localStorage.getItem("data"));
 
   return (
     <DropshipForm onChange={handleSubmit(onSubmit)}>
       <InputContainer>
         <Input
           id="dropshipper-name"
-          defaultValue={data.dropshipperName}
           {...register("dropshipperName", { required: true, maxLength: 20 })}
         />
         <label for="dropshipper-name">Dropshipper name</label>
@@ -49,7 +51,6 @@ function DropshipperForm(props) {
       <InputContainer>
         <Input
           id="dropshipper-phone-number"
-          defaultValue={data.dropshipperPhoneNumber}
           {...register("dropshipperPhoneNumber", {
             required: true,
             minLength: 6,

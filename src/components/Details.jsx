@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import DeliveryForm from "./DeliveryForm";
 import DropshipperForm from "./DropshipperForm";
 import styled from "styled-components";
+import { useForm } from "react-hook-form";
 
 const DetailsTitle = styled.div`
   color: #000000;
@@ -21,14 +22,13 @@ const DeliveryDetails = styled.div`
 `;
 
 function Details() {
-  const [isDropship, setIsDropship] = useState(false);
+  const [isDropship, setIsDropship] = useState(
+    localStorage.getItem("isDropship")
+  );
 
   function handleClick(event) {
-    if (event.target.checked) {
-      setIsDropship(true);
-    } else {
-      setIsDropship(false);
-    }
+    localStorage.setItem("isDropship", event.target.checked);
+    setIsDropship(event.target.checked);
   }
 
   return (
@@ -49,8 +49,7 @@ function Details() {
 
       <DeliveryDetails>
         <DeliveryForm />
-        {/* Passing over isDropship value to DropshipperForm */}
-        {isDropship && <DropshipperForm isDropship={isDropship} />}
+        {isDropship && <DropshipperForm />}
       </DeliveryDetails>
     </div>
   );

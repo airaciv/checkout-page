@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled, { css } from "styled-components";
 import Input from "./Input";
 
@@ -91,32 +91,20 @@ const DropshipForm = styled.form`
 `;
 
 function Details({ useFormReturn, ...restProps }) {
-  const [isDropship, setIsDropship] = useState(
-    localStorage.getItem("isDropship")
-  );
-
   const {
     register,
+    watch,
     formState: { errors },
   } = useFormReturn;
 
-  function handleClick(event) {
-    localStorage.setItem("isDropship", event.target.checked);
-    setIsDropship(event.target.checked);
-  }
+  const watchIsDropship = watch("isDropship");
 
   return (
     <div>
       <DetailsTitle>
         <h1>Delivery details</h1>
         <div>
-          <input
-            type="checkbox"
-            name="dropship"
-            id="dropship"
-            value={isDropship}
-            onClick={handleClick}
-          />
+          <input type="checkbox" id="dropship" {...register("isDropship")} />
           <label for="dropship">Send as dropshipper</label>
         </div>
       </DetailsTitle>
@@ -163,7 +151,7 @@ function Details({ useFormReturn, ...restProps }) {
           </InputContainer>
         </DeliverForm>
 
-        {isDropship && (
+        {watchIsDropship && (
           <DropshipForm>
             <InputContainer>
               <Input

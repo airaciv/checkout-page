@@ -136,8 +136,9 @@ function App() {
 
   const onSubmit = (data) => {
     localStorage.setItem("data", JSON.stringify(data));
-    console.log(data);
-    handleClick();
+    if (step < 3) {
+      setStep(step + 1);
+    }
   };
 
   const content = [
@@ -146,22 +147,11 @@ function App() {
     <Finish useFormReturn={useFormReturn} />,
   ][step - 1];
 
-  // Increase step counter
-  function handleClick() {
-    setStep(() => {
-      if (step < 3) {
-        return step + 1;
-      }
-    });
-  }
-
   // Decrease step counter
   function handleBackClick() {
-    setStep(() => {
-      if (step >= 0) {
-        return step - 1;
-      }
-    });
+    if (step >= 0) {
+      setStep(step - 1);
+    }
   }
 
   return (

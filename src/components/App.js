@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import BackButton from "./BackButton";
 import Details from "./Details";
 import Options from "./Options";
 import Finish from "./Finish";
@@ -65,7 +64,7 @@ const StepNumber = styled.span`
   opacity: 0.2;
 `;
 
-const BackArrow = styled.div`
+const BackButton = styled(PlainBackButton)`
   position: absolute;
   left: 4rem;
   top: 2rem;
@@ -79,6 +78,28 @@ const BackArrow = styled.div`
     top: 6rem;
   }
 `;
+
+function PlainBackButton({ step, ...restProps }) {
+  let content = null;
+
+  if (step === 1) {
+    content = (
+      <>
+        <i className="fa-solid fa-arrow-left"></i>
+        <span> Back to cart</span>
+      </>
+    );
+  } else if (step === 2) {
+    content = (
+      <>
+        <i className="fa-solid fa-arrow-left"></i>
+        <span> Back to delivery</span>
+      </>
+    );
+  }
+
+  return <div {...restProps}>{content}</div>;
+}
 
 function App() {
   const [step, setStep] = useState(1);
@@ -120,9 +141,7 @@ function App() {
 
       {/* To contain both content details and summary */}
       <Container>
-        <BackArrow onClick={handleBackClick}>
-          <BackButton step={step} />
-        </BackArrow>
+        <BackButton onClick={handleBackClick} step={step}></BackButton>
         <ContentContainer>
           {/* Display content based on step counter */}
           {content}

@@ -65,22 +65,14 @@ const TextArea = styled.textarea`
 `;
 
 function DeliveryForm() {
-  const data = JSON.parse(localStorage.getItem("data"));
+  const data = JSON.parse(localStorage.getItem("data") ?? "{}");
   const { register, handleSubmit } = useForm({
     mode: "onChange",
     defaultValues: data,
   });
 
   const onSubmit = (data) => {
-    const { name, phoneNumber, deliveryAddress } = data;
-    localStorage.setItem(
-      "data",
-      JSON.stringify({
-        name: name,
-        phoneNumber: phoneNumber,
-        deliveryAddress: deliveryAddress,
-      })
-    );
+    localStorage.setItem("data", JSON.stringify(data));
     console.log(data);
   };
 

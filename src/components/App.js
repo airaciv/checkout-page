@@ -4,7 +4,7 @@ import Options from "./Options";
 import Finish from "./Finish";
 import Summary from "./Summary";
 import styled from "styled-components";
-import {useForm} from "react-hook-form"
+import { useForm } from "react-hook-form";
 
 const Container = styled.div`
   background-color: #ffffff;
@@ -31,7 +31,7 @@ const Steps = styled(PlainSteps)`
   border-radius: 50px;
   color: #ff8a00;
   margin: auto;
-  padding: 0.5rem 1rem 0.5rem 0;
+  padding: 0.5rem 1rem 1rem 0;
   position: relative;
   top: 3rem;
   text-align: center;
@@ -136,7 +136,11 @@ function App() {
     localStorage.setItem("data", JSON.stringify(data));
     console.log(data);
   };
-  const content = [<Details />, <Options />, <Finish />][step - 1];
+  const content = [
+    <Details useFormReturn={useFormReturn} />,
+    <Options useFormReturn={useFormReturn} />,
+    <Finish useFormReturn={useFormReturn} />,
+  ][step - 1];
 
   // Increase step counter
   function handleClick() {

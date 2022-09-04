@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
-import { useForm } from "react-hook-form";
 import Input from "./Input";
 
 const DetailsTitle = styled.div`
@@ -90,9 +89,9 @@ const DropshipForm = styled.form`
   }
 `;
 
-function DeliveryForm() {
+function DeliveryForm({ useFormReturn, ...restProps }) {
   const data = JSON.parse(localStorage.getItem("data") ?? "{}");
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit } = useFormReturn({
     mode: "onChange",
     defaultValues: data,
   });
@@ -137,9 +136,9 @@ function DeliveryForm() {
   );
 }
 
-function DropshipperForm(props) {
+function DropshipperForm({ useFormReturn, ...restProps }) {
   const dropshipperData = JSON.parse(localStorage.getItem("dropshipperData"));
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit } = useFormReturn({
     mode: "onChange",
     defaultValues: dropshipperData,
   });
@@ -181,7 +180,7 @@ function DropshipperForm(props) {
   );
 }
 
-function Details() {
+function Details({ useFormReturn, ...restProps }) {
   const [isDropship, setIsDropship] = useState(
     localStorage.getItem("isDropship")
   );
@@ -208,8 +207,8 @@ function Details() {
       </DetailsTitle>
 
       <DeliveryDetails>
-        <DeliveryForm />
-        {isDropship && <DropshipperForm />}
+        <DeliveryForm useFormReturn={useFormReturn} />
+        {isDropship && <DropshipperForm useFormReturn={useFormReturn} />}
       </DeliveryDetails>
     </div>
   );

@@ -51,7 +51,7 @@ function Summary({ step, ...restProps }) {
   });
 
   let proceedButton = null;
-  if (step === 1) {
+  if (step <= 1) {
     proceedButton = "Continue to Payment";
   } else if (step === 2) {
     proceedButton = "Pay with e-Wallet";

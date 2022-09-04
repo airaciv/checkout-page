@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
+import { useForm } from "react-hook-form";
+import Input from "./Input";
 
 const DropshipForm = styled.form`
   flex: 1 1 40%;
@@ -18,41 +20,44 @@ const InputContainer = styled.div`
   transition: background-color 500ms;
 `;
 
-function DropshipperForm() {
-  const [dropshipForm, setDropshipForm] = useState({
-    name: "",
-    phoneNumber: "",
-  });
+function DropshipperForm(props) {
+  const { register, handleSubmit } = useForm({ mode: "onChange" });
 
-  // Change value on input change
-  function handleChange(event) {
-    const { name, value } = event.target;
-    setDropshipForm((prevValue) => {
-      return { prevValue, [name]: value };
-    });
-  }
+  const onSubmit = (data) => {
+    const { dropshipperName, dropshipperPhoneNumber } = data;
+    localStorage.setItem(
+      "data",
+      JSON.stringify({
+        dropshipperName: dropshipperName,
+        dropshipperPhoneNumber: dropshipperPhoneNumber,
+      })
+    );
+  };
+  const data = JSON.parse(localStorage.getItem("data"));
 
   return (
-    <DropshipForm>
+    <DropshipForm onChange={handleSubmit(onSubmit)}>
       <InputContainer>
-        <input
-          type="text"
+        <Input
           id="dropshipper-name"
-          value={dropshipForm.name}
-          onChange={handleChange}
-          className={dropshipForm.name !== "" && "is-valid"}
+          defaultValue={data.dropshipperName}
+          {...register("dropshipperName", { required: true, maxLength: 20 })}
         />
         <label for="dropshipper-name">Dropshipper name</label>
       </InputContainer>
+
       <InputContainer>
-        <input
-          type="text"
+        <Input
           id="dropshipper-phone-number"
-          value={dropshipForm.phoneNumber}
-          onChange={handleChange}
-          className={dropshipForm.phoneNumber !== "" && "is-valid"}
+          defaultValue={data.dropshipperPhoneNumber}
+          {...register("dropshipperPhoneNumber", {
+            required: true,
+            minLength: 6,
+            maxLength: 20,
+            pattern: /^[0-9-+,]+$/,
+          })}
         />
-        <label for="dropshipper-phone-number">Dropshipper phone number</label>
+        <label for="dropshipper-phone-number">Phone Number</label>
       </InputContainer>
     </DropshipForm>
   );

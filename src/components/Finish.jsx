@@ -21,9 +21,9 @@ const BackButton = styled.div`
 `;
 
 function Finish() {
+  // Generate random order ID
   var orderID = "";
   const characters = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-
   for (let i = 0; i < 5; i++) {
     orderID += characters.charAt(Math.floor(Math.random() * characters.length));
   }

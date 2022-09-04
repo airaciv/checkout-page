@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import styled, { css } from "styled-components";
+import { useForm } from "react-hook-form";
+import Input from "./Input";
 
 const DeliverForm = styled.form`
   flex: 1 1 60%;
@@ -21,7 +23,7 @@ const InputContainer = styled.div`
   transition: background-color 500ms;
 `;
 
-const Input = styled.input`
+const TextArea = styled.textarea`
   width: 100%;
   box-sizing: border-box;
   background: transparent;
@@ -63,45 +65,53 @@ const Input = styled.input`
 `;
 
 function DeliveryForm() {
-  const [deliveryForm, setDeliveryForm] = useState({
-    name: "",
-    phoneNumber: "",
-    deliveryAddress: "",
-  });
+  const { register, handleSubmit } = useForm({ mode: "onChange" });
 
-  function handleChange(event) {
-    const { name, value } = event.target;
-    setDeliveryForm((prevValue) => {
-      return { prevValue, [name]: value };
-    });
-    console.log(deliveryForm.value);
-  }
+  const onSubmit = (data) => {
+    const { name, phoneNumber, deliveryAddress } = data;
+    localStorage.setItem(
+      "data",
+      JSON.stringify({
+        name: name,
+        phoneNumber: phoneNumber,
+        deliveryAddress: deliveryAddress,
+      })
+    );
+  };
+  const data = JSON.parse(localStorage.getItem("data"));
 
   return (
-    <DeliverForm>
+    <DeliverForm onChange={handleSubmit(onSubmit)}>
       <InputContainer>
-        <Input id="name" value={deliveryForm.name} onChange={handleChange} />
+        <Input
+          id="name"
+          defaultValue={data.name}
+          {...register("name", { required: true, maxLength: 20 })}
+        />
         <label for="name">Name</label>
       </InputContainer>
 
       <InputContainer>
-        <input
+        <Input
           id="phone-number"
-          value={deliveryForm.phoneNumber}
-          onChange={handleChange}
-          className={deliveryForm.phoneNumber !== "" && "is-valid"}
+          defaultValue={data.phoneNumber}
+          {...register("phoneNumber", {
+            required: true,
+            minLength: 6,
+            maxLength: 20,
+            pattern: /^[0-9-+,]+$/,
+          })}
         />
         <label for="phone-number">Phone Number</label>
       </InputContainer>
 
       <InputContainer>
-        <textarea
+        <TextArea
           id="delivery-address"
           rows="10"
-          value={deliveryForm.deliveryAddress}
-          onChange={handleChange}
-          className={deliveryForm.deliveryAddress !== "" && "is-valid"}
-        ></textarea>
+          defaultValue={data.deliveryAddress}
+          {...register("deliveryAddress", { required: true, maxLength: 120 })}
+        ></TextArea>
         <label for="delivery-address">Delivery Address</label>
       </InputContainer>
     </DeliverForm>

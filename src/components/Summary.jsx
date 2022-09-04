@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import ProceedButton from "./ProceedButton";
 
 const SummaryContainer = styled.div`
   flex: 1 1 30%;
@@ -44,6 +45,12 @@ const Cost = styled.div`
 `;
 
 function Summary(props) {
+  const [cost, setCost] = useState({
+    costOfGood: 500000,
+    dropshippingFee: 5900,
+    deliveryFee: 15000,
+  });
+
   return (
     <SummaryContainer>
       {/* Details Summary */}
@@ -60,25 +67,26 @@ function Summary(props) {
       <TotalSummary>
         <Cost>
           <p>Cost of goods</p>
-          <p>500,000</p>
+          <p>{cost.costOfGood}</p>
         </Cost>
         <Cost>
           <p>Dropshipping Fee</p>
-          <p>5,900</p>
+          <p>{cost.dropshippingFee}</p>
         </Cost>
         <Cost>
           <p>
             <strong>GO-SEND </strong>shipment
           </p>
-          <p>15,000</p>
+          <p>{cost.deliveryFee}</p>
         </Cost>
         <Cost>
           <h2>Total</h2>
-          <h2>505,900</h2>
+          <h2>{cost.costOfGood + cost.dropshippingFee + cost.deliveryFee}</h2>
         </Cost>
       </TotalSummary>
 
-      <button onClick={props.onClick}>Continue to Payment</button>
+      {/* Passing over step count and onClick function from App to ProceedButton */}
+      <ProceedButton step={props.step} onClick={props.onClick} />
     </SummaryContainer>
   );
 }

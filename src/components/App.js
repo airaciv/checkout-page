@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import Content from "./Content";
+import BackButton from "./BackButton";
+import Details from "./Details";
+import Options from "./Options";
+import Finish from "./Finish";
 import Summary from "./Summary";
 import styled from "styled-components";
 
@@ -59,6 +62,7 @@ const StepNumber = styled.span`
   line-height: 1rem;
   padding: 10px 5px 0;
   margin-right: 1rem;
+  opacity: 0.2;
 `;
 
 const BackArrow = styled.div`
@@ -78,8 +82,8 @@ const BackArrow = styled.div`
 
 function App() {
   const [step, setStep] = useState(1);
+  const content = [<Details />, <Options />, <Finish />][step - 1];
 
-  console.log(step);
   // Increase step counter
   function handleClick() {
     setStep(() => {
@@ -89,6 +93,7 @@ function App() {
     });
   }
 
+  // Decrease step counter
   function handleBackClick() {
     setStep(() => {
       if (step >= 0) {
@@ -102,24 +107,28 @@ function App() {
       {/* Showing current step */}
       <Steps>
         <p>
-          <StepNumber>1</StepNumber>Delivery
+          <StepNumber style={{ opacity: 1 }}>1</StepNumber>
+          Delivery
           <span className="fa-solid fa-chevron-right"></span>
-          <StepNumber>2</StepNumber>Payment
+          <StepNumber style={step >= 2 ? { opacity: 1 } : null}>2</StepNumber>
+          Payment
           <span className="fa-solid fa-chevron-right"></span>
-          <StepNumber>3</StepNumber>Finish
+          <StepNumber style={step >= 3 ? { opacity: 1 } : null}>3</StepNumber>
+          Finish
         </p>
       </Steps>
 
       {/* To contain both content details and summary */}
       <Container>
         <BackArrow onClick={handleBackClick}>
-          <i className="fa-solid fa-arrow-left"></i>
-          <a href="http://">Back to cart</a>
+          <BackButton step={step} />
         </BackArrow>
         <ContentContainer>
-          <Content step={step} />
+          {/* Display content based on step counter */}
+          {content}
         </ContentContainer>
-        <Summary onClick={handleClick} />
+        {/* Passing over function to handle button click to increase step count to Summary component */}
+        <Summary onClick={handleClick} step={step} />
       </Container>
     </div>
   );

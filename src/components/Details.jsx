@@ -18,43 +18,6 @@ const DetailsTitle = styled.div`
 const DeliveryDetails = styled.div`
   display: flex;
   flex-wrap: wrap;
-  label {
-    display: block;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 16px;
-    color: #cccccc;
-    transform-origin: left top;
-    user-select: none;
-    transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1),
-      color 150ms cubic-bezier(0.4, 0, 0.2, 1), top 500ms;
-  }
-  textarea {
-    width: 100%;
-    box-sizing: border-box;
-    background: transparent;
-    caret-color: var(--accent-color);
-    border: 1px solid #cccccc;
-    color: black;
-    transition: border 500ms;
-    padding: 20px 16px 6px;
-    font-size: 1rem;
-  }
-  textarea:focus {
-    outline: none;
-    border-bottom-width: 2px;
-    border-bottom-color: var(--accent-color);
-  }
-  textarea:focus + label {
-    color: var(--accent-color);
-  }
-  input:focus + label,
-  input.is-valid + label,
-  textarea:focus + label,
-  textarea.is-valid + label {
-    transform: translateY(-100%) scale(0.75);
-  }
 `;
 
 function Details() {
@@ -86,7 +49,8 @@ function Details() {
 
       <DeliveryDetails>
         <DeliveryForm />
-        {isDropship && <DropshipperForm />}
+        {/* Passing over isDropship value to DropshipperForm */}
+        {isDropship && <DropshipperForm isDropship={isDropship} />}
       </DeliveryDetails>
     </div>
   );

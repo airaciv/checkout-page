@@ -25,7 +25,7 @@ const ContentContainer = styled.div`
   }
 `;
 
-const Steps = styled.div`
+const Steps = styled(PlainSteps)`
   background-color: #fffae6;
   border-radius: 50px;
   color: #ff8a00;
@@ -101,6 +101,27 @@ function PlainBackButton({ step, ...restProps }) {
   return <div {...restProps}>{content}</div>;
 }
 
+function PlainSteps({ steps, currentStep, ...restProps }) {
+  const content = steps.map((step, i) => {
+    let chevron = null;
+    const stepNumberStyle = i + 1 <= currentStep ? { opacity: 1 } : {};
+
+    if (i < steps.length - 1) {
+      chevron = <span className="fa-solid fa-chevron-right"></span>;
+    }
+
+    return (
+      <>
+        <StepNumber style={stepNumberStyle}>{i + 1}</StepNumber>
+        {step}
+        {chevron}
+      </>
+    );
+  });
+
+  return <p {...restProps}>{content}</p>;
+}
+
 function App() {
   const [step, setStep] = useState(1);
   const content = [<Details />, <Options />, <Finish />][step - 1];
@@ -126,19 +147,7 @@ function App() {
   return (
     <div>
       {/* Showing current step */}
-      <Steps>
-        <p>
-          <StepNumber style={{ opacity: 1 }}>1</StepNumber>
-          Delivery
-          <span className="fa-solid fa-chevron-right"></span>
-          <StepNumber style={step >= 2 ? { opacity: 1 } : null}>2</StepNumber>
-          Payment
-          <span className="fa-solid fa-chevron-right"></span>
-          <StepNumber style={step >= 3 ? { opacity: 1 } : null}>3</StepNumber>
-          Finish
-        </p>
-      </Steps>
-
+      <Steps steps={["Delivery", "Payment", "Finish"]} currentStep={step} />
       {/* To contain both content details and summary */}
       <Container>
         <BackButton onClick={handleBackClick} step={step}></BackButton>

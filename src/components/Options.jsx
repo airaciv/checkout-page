@@ -15,30 +15,52 @@ const AvailableOptions = styled.div`
   }
 `;
 
-function Options() {
-  const deliveryOptions = [
-    { name: "GO-SEND", shipmentFee: 15000 },
-    { name: "JNE", shipmentFee: 9000 },
-    { name: "Personal Courier", shipmentFee: 29000 },
-  ];
-
-  function handleClick(event) {
-    event.preventDefault();
-    localStorage.setItem("shipment", event.target.value);
-  }
+function Options({
+  useFormReturn,
+  deliveryOptions,
+  paymentOptions,
+  ...restProps
+}) {
+  //React hook form
+  const { register, setValue, watch } = useFormReturn;
+  const watchCurrentShipment = watch("shipmentName");
+  const watchCurrentPayment = watch("paymentName");
 
   return (
     <div>
       <h1>Shipment</h1>
       <form>
         <AvailableOptions>
+          {/* Generate button for each delivery options */}
           {deliveryOptions.map((option) => {
+            /* Change styling if current chosen shipment is equal to the name of the button */
+            const buttonStyle =
+              watchCurrentShipment === option.name
+                ? {
+                    backgroundColor: "rgba(27, 217, 123, 0.2)",
+                    borderColor: "#1bd97b",
+                  }
+                : {};
+
             return (
-              <button name="name" value={option.name} onClick={handleClick}>
-                {option.name}
-                <br></br>
-                <strong>{option.shipmentFee}</strong>
-              </button>
+              <>
+                <input
+                  type="hidden"
+                  {...register("shipmentName", { required: true })}
+                ></input>
+                <button
+                  style={buttonStyle}
+                  type="button"
+                  onClick={() => {
+                    setValue("shipmentName", option.name);
+                    setValue("shipmentFee", option.shipmentFee);
+                  }}
+                >
+                  {option.name}
+                  <br></br>
+                  <strong>{option.shipmentFee}</strong>
+                </button>
+              </>
             );
           })}
         </AvailableOptions>
@@ -46,16 +68,37 @@ function Options() {
 
       <h1>Payment</h1>
       <AvailableOptions>
-        <button name="payment" value="e-Wallet">
-          e-Wallet<br></br>
-          <strong>1,500,000 left</strong>
-        </button>
-        <button name="payment" value="Bank Transfer">
-          Bank Transfer
-        </button>
-        <button name="payment" value="Virtual Account">
-          Virtual Account
-        </button>
+        {/* Generate button for each payment options */}
+        {paymentOptions.map((option) => {
+          /* Change styling if current chosen payment is equal to the name of the button */
+          const buttonStyle =
+            watchCurrentPayment === option.name
+              ? {
+                  backgroundColor: "rgba(27, 217, 123, 0.2)",
+                  borderColor: "#1bd97b",
+                }
+              : {};
+          return (
+            <>
+              <input
+                type="hidden"
+                {...register("paymentName", { required: true })}
+              ></input>
+              <button
+                style={buttonStyle}
+                type="button"
+                onClick={() => {
+                  setValue("paymentName", option.name);
+                  setValue("comment", option.comment);
+                }}
+              >
+                {option.name}
+                <br></br>
+                <strong>{option.comment}</strong>
+              </button>
+            </>
+          );
+        })}
       </AvailableOptions>
     </div>
   );

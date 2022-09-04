@@ -20,14 +20,7 @@ const BackButton = styled.div`
   }
 `;
 
-function Finish() {
-  // Generate random order ID
-  var orderID = "";
-  const characters = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  for (let i = 0; i < 5; i++) {
-    orderID += characters.charAt(Math.floor(Math.random() * characters.length));
-  }
-
+function Finish({ useFormReturn, orderID, ...restProps }) {
   return (
     <Thankyou>
       <h1>Thank you</h1>
@@ -37,7 +30,14 @@ function Finish() {
       <p>Your order will be delivered today with GO-SEND</p>
       <BackButton>
         <i className="fa-solid fa-arrow-left"></i>
-        <a href="http://"> Go to homepage</a>
+        <a
+          href="http://localhost:3000/"
+          onClick={() => {
+            localStorage.clear();
+          }}
+        >
+          Go to homepage
+        </a>
       </BackButton>
     </Thankyou>
   );

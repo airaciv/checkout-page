@@ -91,6 +91,7 @@ const DropshipForm = styled.form`
 `;
 
 function Details({ useFormReturn, ...restProps }) {
+  // React hook form
   const {
     register,
     watch,
@@ -103,7 +104,8 @@ function Details({ useFormReturn, ...restProps }) {
     <div>
       <DetailsTitle>
         <h1>Delivery details</h1>
-        <div>
+        {/* Register if dropship option is checked */}
+        <div> 
           <input type="checkbox" id="dropship" {...register("isDropship")} />
           <label for="dropship">Send as dropshipper</label>
         </div>

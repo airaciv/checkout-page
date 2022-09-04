@@ -79,6 +79,7 @@ const BackButton = styled(PlainBackButton)`
   }
 `;
 
+// Generate different back button content based on step number
 function PlainBackButton({ step, ...restProps }) {
   let content = null;
 
@@ -101,6 +102,7 @@ function PlainBackButton({ step, ...restProps }) {
   return <div {...restProps}>{content}</div>;
 }
 
+// Generate step display
 function PlainSteps({ steps, currentStep, ...restProps }) {
   const content = steps.map((step, i) => {
     let chevron = null;
@@ -127,24 +129,54 @@ function PlainSteps({ steps, currentStep, ...restProps }) {
 function App() {
   const [step, setStep] = useState(1);
   const data = JSON.parse(localStorage.getItem("data") ?? "{}");
+
+  // Generate random order ID
+  let orderID = "";
+  const characters = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  for (let i = 0; i < 5; i++) {
+    orderID += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+
+  // React Hook form
   const useFormReturn = useForm({
     mode: "onChange",
     defaultValues: data,
   });
 
-  const { handleSubmit } = useFormReturn;
+  const { handleSubmit, setValue, register } = useFormReturn;
 
   const onSubmit = (data) => {
     localStorage.setItem("data", JSON.stringify(data));
     if (step < 3) {
       setStep(step + 1);
+      if (step === 2) {
+        setValue("orderID", orderID);
+      }
     }
   };
 
+  //Delivery and Payment Options
+  const deliveryOptions = [
+    { name: "GO-SEND", shipmentFee: 15000 },
+    { name: "JNE", shipmentFee: 9000 },
+    { name: "Personal Courier", shipmentFee: 29000 },
+  ];
+
+  const paymentOptions = [
+    { name: "e-Wallet", comment: "1,500,000 left" },
+    { name: "Bank Transfer" },
+    { name: "Virtual Account" },
+  ];
+
+  //Generate content based on step number
   const content = [
     <Details useFormReturn={useFormReturn} />,
-    <Options useFormReturn={useFormReturn} />,
-    <Finish useFormReturn={useFormReturn} />,
+    <Options
+      useFormReturn={useFormReturn}
+      deliveryOptions={deliveryOptions}
+      paymentOptions={paymentOptions}
+    />,
+    <Finish useFormReturn={useFormReturn} orderID={orderID} />,
   ][step - 1];
 
   // Decrease step counter
@@ -156,16 +188,15 @@ function App() {
 
   return (
     <div>
-      {/* Showing current step */}
       <Steps steps={["Delivery", "Payment", "Finish"]} currentStep={step} />
-      {/* To contain both content details and summary */}
       <Container>
         <BackButton onClick={handleBackClick} step={step}></BackButton>
         <ContentContainer>
-          {/* Display content based on step counter */}
-          {content}
+          {content} {/* Display content based on step counter */}
         </ContentContainer>
-        {/* Passing over function to handle button click to increase step count to Summary component */}
+        {/* Need to be able to save orderID in form data, still need fixing */}
+        <input type="hidden" {...register("orderID")}></input>
+        {/* Passing over function to submit form on button click */}
         <Summary onClick={handleSubmit(onSubmit)} step={step} />
       </Container>
     </div>

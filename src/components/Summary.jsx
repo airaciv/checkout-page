@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 const SummaryContainer = styled.div`
@@ -43,13 +43,14 @@ const Cost = styled.div`
   }
 `;
 
-function Summary({ step, ...restProps }) {
-  const [cost, setCost] = useState({
+function Summary({ step, deliveryOptions, ...restProps }) {
+  const cost = {
     costOfGood: 500000,
     dropshippingFee: 5900,
     deliveryFee: 15000,
-  });
+  };
 
+  // Generate proceed button based on step number
   let proceedButton = null;
   if (step <= 1) {
     proceedButton = "Continue to Payment";

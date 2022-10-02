@@ -43,19 +43,26 @@ const Cost = styled.div`
   }
 `;
 
-function Summary({ step, deliveryOptions, ...restProps }) {
+function Summary({ step, deliveryOptions, useFormReturn, ...restProps }) {
+  const { watch } = useFormReturn;
+  const watchIsDropship = watch("isDropship");
+  const watchCurrentShipment = watch("shipmentName");
+  const watchCurrentPayment = watch("paymentName");
+
   const cost = {
     costOfGood: 500000,
     dropshippingFee: 5900,
     deliveryFee: 15000,
   };
 
+  const deliveryEstimate = "today";
+
   // Generate proceed button based on step number
   let proceedButton = null;
   if (step <= 1) {
     proceedButton = "Continue to Payment";
   } else if (step === 2) {
-    proceedButton = "Pay with e-Wallet";
+    proceedButton = "Pay with " + watchCurrentPayment;
   }
 
   return (
@@ -65,10 +72,12 @@ function Summary({ step, deliveryOptions, ...restProps }) {
       <p>10 items purchased</p>
       <hr />
       <p>Delivery estimation</p>
-      <ChosenOptions>today by GO-SEND</ChosenOptions>
+      <ChosenOptions>
+        {deliveryEstimate} by {watchCurrentShipment}
+      </ChosenOptions>
       <hr />
       <p>Payment method</p>
-      <ChosenOptions>Bank Transfer</ChosenOptions>
+      <ChosenOptions>{watchCurrentPayment}</ChosenOptions>
 
       {/* Total Summary */}
       <TotalSummary>
@@ -76,10 +85,12 @@ function Summary({ step, deliveryOptions, ...restProps }) {
           <p>Cost of goods</p>
           <p>{cost.costOfGood}</p>
         </Cost>
-        <Cost>
-          <p>Dropshipping Fee</p>
-          <p>{cost.dropshippingFee}</p>
-        </Cost>
+        {watchIsDropship && (
+          <Cost>
+            <p>Dropshipping Fee</p>
+            <p>{cost.dropshippingFee}</p>
+          </Cost>
+        )}
         <Cost>
           <p>
             <strong>{localStorage.getItem("shipment")} </strong>shipment

@@ -19,6 +19,7 @@ function Options({
   useFormReturn,
   deliveryOptions,
   paymentOptions,
+  orderID,
   ...restProps
 }) {
   //React hook form
@@ -84,12 +85,15 @@ function Options({
                 type="hidden"
                 {...register("paymentName", { required: true })}
               ></input>
+              {/* To save orderID in form data */}
+              <input type="hidden" {...register("orderID")}></input>
               <button
                 style={buttonStyle}
                 type="button"
                 onClick={() => {
                   setValue("paymentName", option.name);
                   setValue("comment", option.comment);
+                  setValue("orderID", orderID);
                 }}
               >
                 {option.name}

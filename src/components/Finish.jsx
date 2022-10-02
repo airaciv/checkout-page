@@ -21,11 +21,14 @@ const BackButton = styled.div`
 `;
 
 function Finish({ useFormReturn, orderID, ...restProps }) {
+  const { watch } = useFormReturn;
+  const watchOrderID = watch("orderID");
+
   return (
     <Thankyou>
       <h1>Thank you</h1>
       <p>
-        <strong>Order ID: {orderID}</strong>
+        <strong>Order ID: {watchOrderID}</strong>
       </p>
       <p>Your order will be delivered today with GO-SEND</p>
       <BackButton>

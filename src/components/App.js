@@ -143,23 +143,20 @@ function App() {
     defaultValues: data,
   });
 
-  const { handleSubmit, setValue, register } = useFormReturn;
+  const { handleSubmit } = useFormReturn;
 
   const onSubmit = (data) => {
     localStorage.setItem("data", JSON.stringify(data));
     if (step < 3) {
       setStep(step + 1);
-      if (step === 2) {
-        setValue("orderID", orderID);
-      }
     }
   };
 
   //Delivery and Payment Options
   const deliveryOptions = [
-    { name: "GO-SEND", shipmentFee: 15000 },
-    { name: "JNE", shipmentFee: 9000 },
-    { name: "Personal Courier", shipmentFee: 29000 },
+    { name: "GO-SEND", shipmentFee: 15000, deliveryEstimate: "today" },
+    { name: "JNE", shipmentFee: 9000, deliveryEstimate: "2 days" },
+    { name: "Personal Courier", shipmentFee: 29000, deliveryEstimate: "1 day" },
   ];
 
   const paymentOptions = [
@@ -175,6 +172,7 @@ function App() {
       useFormReturn={useFormReturn}
       deliveryOptions={deliveryOptions}
       paymentOptions={paymentOptions}
+      orderID={orderID}
     />,
     <Finish useFormReturn={useFormReturn} orderID={orderID} />,
   ][step - 1];
@@ -194,10 +192,12 @@ function App() {
         <ContentContainer>
           {content} {/* Display content based on step counter */}
         </ContentContainer>
-        {/* Need to be able to save orderID in form data, still need fixing */}
-        <input type="hidden" {...register("orderID")}></input>
         {/* Passing over function to submit form on button click */}
-        <Summary onClick={handleSubmit(onSubmit)} step={step} />
+        <Summary
+          onClick={handleSubmit(onSubmit)}
+          step={step}
+          useFormReturn={useFormReturn}
+        />
       </Container>
     </div>
   );

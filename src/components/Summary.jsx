@@ -48,14 +48,14 @@ function Summary({ step, deliveryOptions, useFormReturn, ...restProps }) {
   const watchIsDropship = watch("isDropship");
   const watchCurrentShipment = watch("shipmentName");
   const watchCurrentPayment = watch("paymentName");
+  const watchDeliveryEstimate = watch("shipmentEstimate");
+  const watchShipmentFee = watch("shipmentFee");
 
   const cost = {
     costOfGood: 500000,
-    dropshippingFee: 5900,
-    deliveryFee: 15000,
+    dropshippingFee: watchIsDropship ? 5900 : 0,
+    deliveryFee: watchCurrentShipment ? watchShipmentFee : 0,
   };
-
-  const deliveryEstimate = "today";
 
   // Generate proceed button based on step number
   let proceedButton = null;
@@ -70,14 +70,26 @@ function Summary({ step, deliveryOptions, useFormReturn, ...restProps }) {
       {/* Details Summary */}
       <h2>Summary</h2>
       <p>10 items purchased</p>
-      <hr />
-      <p>Delivery estimation</p>
-      <ChosenOptions>
-        {deliveryEstimate} by {watchCurrentShipment}
-      </ChosenOptions>
-      <hr />
-      <p>Payment method</p>
-      <ChosenOptions>{watchCurrentPayment}</ChosenOptions>
+
+      {/* Appears in summary only when shipment option is clicked */}
+      {watchCurrentShipment && (
+        <>
+          <hr />
+          <p>Delivery estimation</p>
+          <ChosenOptions>
+            {watchDeliveryEstimate} by {watchCurrentShipment}
+          </ChosenOptions>
+        </>
+      )}
+
+      {/* Appears in summary only when payment option is clicked */}
+      {watchCurrentPayment && (
+        <>
+          <hr />
+          <p>Payment method</p>
+          <ChosenOptions>{watchCurrentPayment}</ChosenOptions>
+        </>
+      )}
 
       {/* Total Summary */}
       <TotalSummary>
@@ -91,12 +103,14 @@ function Summary({ step, deliveryOptions, useFormReturn, ...restProps }) {
             <p>{cost.dropshippingFee}</p>
           </Cost>
         )}
-        <Cost>
-          <p>
-            <strong>{localStorage.getItem("shipment")} </strong>shipment
-          </p>
-          <p>{cost.deliveryFee}</p>
-        </Cost>
+        {watchCurrentShipment && (
+          <Cost>
+            <p>
+              <strong>{localStorage.getItem("shipment")} </strong>shipment
+            </p>
+            <p>{cost.deliveryFee}</p>
+          </Cost>
+        )}
         <Cost>
           <h2>Total</h2>
           <h2>{cost.costOfGood + cost.dropshippingFee + cost.deliveryFee}</h2>

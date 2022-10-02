@@ -10,9 +10,11 @@ const Container = styled.div`
   background-color: #ffffff;
   display: flex;
   margin: 2rem;
+  padding-bottom: 3rem;
   position: relative;
   @media (max-width: 1100px) {
     flex-wrap: wrap;
+    padding-bottom: 0;
   }
 `;
 

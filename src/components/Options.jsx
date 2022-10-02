@@ -55,6 +55,7 @@ function Options({
                   onClick={() => {
                     setValue("shipmentName", option.name);
                     setValue("shipmentFee", option.shipmentFee);
+                    setValue("shipmentEstimate", option.deliveryEstimate);
                   }}
                 >
                   {option.name}

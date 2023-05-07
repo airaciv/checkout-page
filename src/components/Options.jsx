@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const AvailableOptions = styled.div`
   display: flex;
@@ -24,8 +24,8 @@ function Options({
 }) {
   //React hook form
   const { register, setValue, watch } = useFormReturn;
-  const watchCurrentShipment = watch("shipmentName");
-  const watchCurrentPayment = watch("paymentName");
+  const watchCurrentShipment = watch('shipmentName');
+  const watchCurrentPayment = watch('paymentName');
 
   return (
     <div>
@@ -38,8 +38,8 @@ function Options({
             const buttonStyle =
               watchCurrentShipment === option.name
                 ? {
-                    backgroundColor: "rgba(27, 217, 123, 0.2)",
-                    borderColor: "#1bd97b",
+                    backgroundColor: 'rgba(27, 217, 123, 0.2)',
+                    borderColor: '#1bd97b',
                   }
                 : {};
 
@@ -47,15 +47,15 @@ function Options({
               <>
                 <input
                   type="hidden"
-                  {...register("shipmentName", { required: true })}
+                  {...register('shipmentName', { required: true })}
                 ></input>
                 <button
                   style={buttonStyle}
                   type="button"
                   onClick={() => {
-                    setValue("shipmentName", option.name);
-                    setValue("shipmentFee", option.shipmentFee);
-                    setValue("shipmentEstimate", option.deliveryEstimate);
+                    setValue('shipmentName', option.name);
+                    setValue('shipmentFee', option.shipmentFee);
+                    setValue('shipmentEstimate', option.deliveryEstimate);
                   }}
                 >
                   {option.name}
@@ -76,25 +76,25 @@ function Options({
           const buttonStyle =
             watchCurrentPayment === option.name
               ? {
-                  backgroundColor: "rgba(27, 217, 123, 0.2)",
-                  borderColor: "#1bd97b",
+                  backgroundColor: 'rgba(27, 217, 123, 0.2)',
+                  borderColor: '#1bd97b',
                 }
               : {};
           return (
             <>
               <input
                 type="hidden"
-                {...register("paymentName", { required: true })}
+                {...register('paymentName', { required: true })}
               ></input>
               {/* To save orderID in form data */}
-              <input type="hidden" {...register("orderID")}></input>
+              <input type="hidden" {...register('orderID')}></input>
               <button
                 style={buttonStyle}
                 type="button"
                 onClick={() => {
-                  setValue("paymentName", option.name);
-                  setValue("comment", option.comment);
-                  setValue("orderID", orderID);
+                  setValue('paymentName', option.name);
+                  setValue('comment', option.comment);
+                  setValue('orderID', orderID);
                 }}
               >
                 {option.name}

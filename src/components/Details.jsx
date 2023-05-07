@@ -1,6 +1,6 @@
-import React from "react";
-import styled, { css } from "styled-components";
-import Input from "./Input";
+import React from 'react';
+import styled, { css } from 'styled-components';
+import Input from './Input';
 
 const DetailsTitle = styled.div`
   color: #000000;
@@ -22,7 +22,7 @@ const DeliveryDetails = styled.div`
 const DeliverForm = styled.form`
   flex: 1 1 60%;
   textarea {
-    font-family: "Inter", sans-serif;
+    font-family: 'Inter', sans-serif;
     height: 150px;
     width: 100%;
   }
@@ -49,7 +49,7 @@ const TextArea = styled.textarea`
   transition: border 500ms;
   padding: 20px 16px 6px;
   font-size: 1rem;
-  border-color: ${(props) => (props.isValid ? "#1BD97B" : "#FF8A00")};
+  border-color: ${(props) => (props.isValid ? '#1BD97B' : '#FF8A00')};
 
   + label {
     display: block;
@@ -98,15 +98,15 @@ function Details({ useFormReturn, ...restProps }) {
     formState: { errors },
   } = useFormReturn;
 
-  const watchIsDropship = watch("isDropship");
+  const watchIsDropship = watch('isDropship');
 
   return (
     <div>
       <DetailsTitle>
         <h1>Delivery details</h1>
         {/* Register if dropship option is checked */}
-        <div> 
-          <input type="checkbox" id="dropship" {...register("isDropship")} />
+        <div>
+          <input type="checkbox" id="dropship" {...register('isDropship')} />
           <label for="dropship">Send as dropshipper</label>
         </div>
       </DetailsTitle>
@@ -118,7 +118,8 @@ function Details({ useFormReturn, ...restProps }) {
               id="name"
               // To check if input is valid and change the input field color accordingly
               isValid={!errors.name}
-              {...register("name", { required: true, maxLength: 20 })}
+              value={watch('name')}
+              {...register('name', { required: true, maxLength: 20 })}
             />
 
             <label for="name">Name</label>
@@ -128,7 +129,8 @@ function Details({ useFormReturn, ...restProps }) {
             <Input
               id="phone-number"
               isValid={!errors.phoneNumber}
-              {...register("phoneNumber", {
+              value={watch('phoneNumber')}
+              {...register('phoneNumber', {
                 required: true,
                 minLength: 6,
                 maxLength: 20,
@@ -144,7 +146,8 @@ function Details({ useFormReturn, ...restProps }) {
               id="delivery-address"
               rows="10"
               isValid={!errors.deliveryAddress}
-              {...register("deliveryAddress", {
+              value={watch('deliveryAddress')}
+              {...register('deliveryAddress', {
                 required: true,
                 maxLength: 120,
               })}
@@ -159,7 +162,8 @@ function Details({ useFormReturn, ...restProps }) {
               <Input
                 id="dropshipper-name"
                 isValid={!errors.dropshipperName}
-                {...register("dropshipperName", {
+                value={watch('dropshipperName')}
+                {...register('dropshipperName', {
                   required: true,
                   maxLength: 20,
                 })}
@@ -171,7 +175,8 @@ function Details({ useFormReturn, ...restProps }) {
               <Input
                 id="dropshipper-phone-number"
                 isValid={!errors.dropshipperPhoneNumber}
-                {...register("dropshipperPhoneNumber", {
+                value={watch('dropshipperPhoneNumber')}
+                {...register('dropshipperPhoneNumber', {
                   required: true,
                   minLength: 6,
                   maxLength: 20,

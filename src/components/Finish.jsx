@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const Thankyou = styled.div`
   padding: 10% 20%;
@@ -22,7 +22,7 @@ const BackButton = styled.div`
 
 function Finish({ useFormReturn, orderID, ...restProps }) {
   const { watch } = useFormReturn;
-  const watchOrderID = watch("orderID");
+  const watchOrderID = watch('orderID');
 
   return (
     <Thankyou>
@@ -34,7 +34,7 @@ function Finish({ useFormReturn, orderID, ...restProps }) {
       <BackButton>
         <i className="fa-solid fa-arrow-left"></i>
         <a
-          href="http://localhost:3000/"
+          href="/checkout-page"
           onClick={() => {
             localStorage.clear();
           }}

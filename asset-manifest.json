@@ -1,0 +1,10 @@
+{
+  "files": {
+    "main.js": "/checkout-page/static/js/main.2e63c40e.js",
+    "index.html": "/checkout-page/index.html",
+    "main.2e63c40e.js.map": "/checkout-page/static/js/main.2e63c40e.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.2e63c40e.js"
+  ]
+}
